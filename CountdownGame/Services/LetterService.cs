@@ -2,7 +2,7 @@
 
 public static class LetterService
 {
-    private static readonly char[] VowelsBag;   // 67 элементов: A(15), E(21), I(13), O(13), U(5)
+    private static readonly char[] VowelsBag;   
     private static readonly char[] Consonants = "BCDFGHJKLMNPQRSTVWXYZ".ToCharArray();
 
     static LetterService()

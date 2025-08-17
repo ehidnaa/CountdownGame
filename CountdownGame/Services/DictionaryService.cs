@@ -22,7 +22,7 @@ public static class DictionaryService
         {
             if (_loaded) return;
 
-            // если файла нет — скачиваем и сохраняем
+            
             if (!File.Exists(LocalPath))
             {
                 using var http = new HttpClient();
@@ -31,7 +31,7 @@ public static class DictionaryService
                 await File.WriteAllTextAsync(LocalPath, txt);
             }
 
-            // читаем локально в память
+            
             var lines = await File.ReadAllLinesAsync(LocalPath);
             _words = new HashSet<string>(lines.Select(l => l.Trim().ToLowerInvariant())
                                               .Where(l => l.Length > 0));
