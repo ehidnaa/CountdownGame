@@ -1,25 +1,27 @@
-﻿namespace CountdownGame
+﻿using CountdownGame.Models;
+using CountdownGame.Services;
+
+namespace CountdownGame;
+
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        int count = 0;
-
-        public MainPage()
-        {
-            InitializeComponent();
-        }
-
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
+        InitializeComponent();
     }
 
+    private void OnStartGameClicked(object sender, EventArgs e)
+    {
+        var p1 = string.IsNullOrWhiteSpace(Player1Entry.Text) ? "Player 1" : Player1Entry.Text.Trim();
+        var p2 = string.IsNullOrWhiteSpace(Player2Entry.Text) ? "Player 2" : Player2Entry.Text.Trim();
+
+        GameSession.Current = new GameState
+        {
+            Player1 = new Player { Name = p1 },
+            Player2 = new Player { Name = p2 }
+        };
+
+        
+        Shell.Current.CurrentItem = Shell.Current.Items[0].Items[1];
+    }
 }
