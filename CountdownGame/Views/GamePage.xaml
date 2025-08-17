@@ -4,7 +4,41 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Game">
+
     <VerticalStackLayout Padding="20" Spacing="12">
-        <Label Text="Game Page" />
+
+        <!-- Header with names and score -->
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="P1:" FontAttributes="Bold"/>
+            <Label x:Name="P1Name" />
+            <Label Text="(" />
+            <Label x:Name="P1Score" />
+            <Label Text=")  vs  P2:" FontAttributes="Bold"/>
+            <Label x:Name="P2Name" />
+            <Label Text="(" />
+            <Label x:Name="P2Score" />
+            <Label Text=")" />
+        </HorizontalStackLayout>
+
+        <!-- Chosen letters -->
+        <HorizontalStackLayout x:Name="LettersPanel" Spacing="6" />
+
+        <!-- Controls -->
+        <HorizontalStackLayout Spacing="10">
+            <Button Text="Consonant"  x:Name="ConsonantBtn" Clicked="OnConsonantClicked" />
+            <Button Text="Vowel"      x:Name="VowelBtn"     Clicked="OnVowelClicked" />
+            <Button Text="Start 30s"   x:Name="StartBtn"     Clicked="OnStartClicked" />
+        </HorizontalStackLayout>
+
+        <!-- Timer -->
+        <Label x:Name="TimerLabel" Text="30" FontSize="32" HorizontalOptions="Center" />
+
+        <!-- Word inputs (disabled until timer ends) -->
+        <VerticalStackLayout Spacing="6">
+            <Entry x:Name="Word1Entry" Placeholder="Player 1 word" IsEnabled="False" />
+            <Entry x:Name="Word2Entry" Placeholder="Player 2 word" IsEnabled="False" />
+            <Button Text="Check words" x:Name="CheckBtn" IsEnabled="False" Clicked="OnCheckWordsClicked" />
+        </VerticalStackLayout>
+
     </VerticalStackLayout>
 </ContentPage>
