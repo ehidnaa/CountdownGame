@@ -1,4 +1,4 @@
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using CountdownGame.Models;
 using CountdownGame.Services;
 using GameKit;
@@ -95,7 +95,78 @@ public partial class GamePage : ContentPage
 
     private async void OnCheckWordsClicked(object? sender, EventArgs e)
     {
-        // now just notification
-        await DisplayAlert("Next step", "Dictionary check and scoring will be added next.", "OK");
+        var w1 = (Word1Entry.Text ?? "").Trim();
+        var w2 = (Word2Entry.Text ?? "").Trim();
+
+        bool w1fits = WordValidator.FitsLetters(w1, _picked);
+        bool w2fits = WordValidator.FitsLetters(w2, _picked);
+
+        bool w1ok = w1fits && await DictionaryService.ContainsAsync(w1);
+        bool w2ok = w2fits && await DictionaryService.ContainsAsync(w2);
+
+        int len1 = w1ok ? w1.Length : 0;
+        int len2 = w2ok ? w2.Length : 0;
+
+        string msg =
+            $"P1: {(w1ok ? w1 : $"{w1} (invalid)")} → {len1} pts\n" +
+            $"P2: {(w2ok ? w2 : $"{w2} (invalid)")} → {len2} pts";
+
+        await DisplayAlert("Round results", msg, "OK");
+
+        if (len1 > len2) _state.Player1.Score += len1;
+        else if (len2 > len1) _state.Player2.Score += len2;
+        else if (len1 == len2 && len1 > 0)
+        {
+            _state.Player1.Score += len1;
+            _state.Player2.Score += len2;
+        }
+
+        P1Score.Text = _state.Player1.Score.ToString();
+        P2Score.Text = _state.Player2.Score.ToString();
+
+        _state.CurrentRound++;
+        if (_state.CurrentRound <= _state.TotalRounds)
+        {           
+            _picked.Clear();
+            RenderLetters();
+            TimerLabel.Text = "30";
+            Word1Entry.Text = "";
+            Word2Entry.Text = "";
+            Word1Entry.IsEnabled = false;
+            Word2Entry.IsEnabled = false;
+            CheckBtn.IsEnabled = false;
+            ConsonantBtn.IsEnabled = true;
+            VowelBtn.IsEnabled = true;
+            StartBtn.IsEnabled = false;
+        }
+        else
+        {
+            await EndGameAsync();
+        }
     }
+
+    private async Task EndGameAsync()
+    {
+        string winner;
+        if (_state.Player1.Score > _state.Player2.Score) winner = $"{_state.Player1.Name} wins!";
+        else if (_state.Player2.Score > _state.Player1.Score) winner = $"{_state.Player2.Name} wins!";
+        else winner = "Draw!";
+
+        await DisplayAlert("Game over",
+            $"{_state.Player1.Name}: {_state.Player1.Score}\n" +
+            $"{_state.Player2.Name}: {_state.Player2.Score}\n\n{winner}",
+            "OK");
+
+        await HistoryService.AppendAsync(new Models.GameRecord
+        {
+            Timestamp = DateTimeOffset.Now,
+            Player1Name = _state.Player1.Name,
+            Player2Name = _state.Player2.Name,
+            Player1Score = _state.Player1.Score,
+            Player2Score = _state.Player2.Score
+        });
+
+        await Shell.Current.GoToAsync("//Home");
+    }
+
 }
