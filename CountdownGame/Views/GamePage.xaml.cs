@@ -179,7 +179,7 @@ public partial class GamePage : ContentPage
             Player2Score = _state.Player2.Score
         });
 
-        await Shell.Current.GoToAsync("//Home");
+        await Shell.Current.GoToAsync("//home");
     }
 
 }
