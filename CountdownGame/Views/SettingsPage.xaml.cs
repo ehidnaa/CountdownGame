@@ -1,3 +1,5 @@
+using CountdownGame.Services;
+
 namespace CountdownGame;
 
 public partial class SettingsPage : ContentPage
@@ -7,8 +9,10 @@ public partial class SettingsPage : ContentPage
         InitializeComponent();
     }
 
-    private void OnBackgroundChanged(object sender, EventArgs e)
+    private async void OnBackgroundChanged(object sender, EventArgs e)
     {
+        await UiEffects.PressAsync((View)sender);
+
         var selected = BackgroundPicker.SelectedItem?.ToString();
 
         if (selected == "Light")
@@ -63,5 +67,10 @@ public partial class SettingsPage : ContentPage
             }
             };
         }
+    }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await this.FadeTo(1, 250, Easing.CubicOut);
     }
 }

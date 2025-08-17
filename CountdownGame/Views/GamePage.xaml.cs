@@ -44,15 +44,19 @@ public partial class GamePage : ContentPage
         StartBtn.IsEnabled = _picked.Count == 9;
     }
 
-    private void OnConsonantClicked(object? sender, EventArgs e)
+    private async void OnConsonantClicked(object? sender, EventArgs e)
     {
+        await UiEffects.PressAsync((View)sender);
+
         if (_picked.Count >= 9) return;
         _picked.Add(LetterService.PickConsonant());
         RenderLetters();
     }
 
-    private void OnVowelClicked(object? sender, EventArgs e)
+    private async void OnVowelClicked(object? sender, EventArgs e)
     {
+        await UiEffects.PressAsync((View)sender);
+
         if (_picked.Count >= 9) return;
         _picked.Add(LetterService.PickVowel());
         RenderLetters();
@@ -60,6 +64,8 @@ public partial class GamePage : ContentPage
 
     private async void OnStartClicked(object? sender, EventArgs e)
     {
+        await UiEffects.PressAsync((View)sender);
+
         if (_picked.Count != 9)
         {
             await DisplayAlert("Info", "Pick 9 letters first.", "OK");
@@ -92,8 +98,16 @@ public partial class GamePage : ContentPage
         CheckBtn.IsEnabled = true;
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await this.FadeTo(1, 250, Easing.CubicOut);
+    }
+
     private async void OnCheckWordsClicked(object? sender, EventArgs e)
     {
+        await UiEffects.PressAsync((View)sender);
+
         var w1 = (Word1Entry.Text ?? "").Trim();
         var w2 = (Word2Entry.Text ?? "").Trim();
 

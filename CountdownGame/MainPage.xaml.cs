@@ -9,19 +9,21 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
     }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await this.FadeTo(1, 250, Easing.CubicOut);
+    }
 
     private async void OnStartGameClicked(object sender, EventArgs e)
     {
-        var p1 = string.IsNullOrWhiteSpace(Player1Entry.Text) ? "Player 1" : Player1Entry.Text.Trim();
-        var p2 = string.IsNullOrWhiteSpace(Player2Entry.Text) ? "Player 2" : Player2Entry.Text.Trim();
+        await UiEffects.PressAsync((View)sender);
+        await Navigation.PushAsync(new GamePage());
+    }
 
-        GameSession.Current = new GameState
-        {
-            Player1 = new Player { Name = p1 },
-            Player2 = new Player { Name = p2 }
-        };
-
-        // переключаемся на вкладку "Game" и сохраняем таб-меню
-        await Shell.Current.GoToAsync("//game");
+    private async void OnGoToSettingsClicked(object sender, EventArgs e)
+    {
+        await UiEffects.PressAsync((View)sender);
+        await Navigation.PushAsync(new SettingsPage());
     }
 }
