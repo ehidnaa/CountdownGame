@@ -6,9 +6,10 @@
     xmlns:local="clr-namespace:CountdownGame">
 
     <TabBar>
-        <ShellContent Title="Home"    ContentTemplate="{DataTemplate local:MainPage}" />
-        <ShellContent Title="Game"    ContentTemplate="{DataTemplate local:GamePage}" />
-        <ShellContent Title="History" ContentTemplate="{DataTemplate local:HistoryPage}" />
-        <ShellContent Title="Settings" ContentTemplate="{DataTemplate local:SettingsPage}" />
+        <ShellContent Route="home"    Title="Home"    ContentTemplate="{DataTemplate local:MainPage}" />
+        <ShellContent Route="game"    Title="Game"    ContentTemplate="{DataTemplate local:GamePage}" />
+        <ShellContent Route="history" Title="History" ContentTemplate="{DataTemplate local:HistoryPage}" />
+        <ShellContent Route="settings" Title="Settings" ContentTemplate="{DataTemplate local:SettingsPage}" />
     </TabBar>
+
 </Shell>

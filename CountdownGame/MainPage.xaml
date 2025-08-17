@@ -1,21 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+﻿<ContentPage
     x:Class="CountdownGame.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Background="{DynamicResource AppBackground}"
     Title="Home">
 
-    <VerticalStackLayout Padding="20" Spacing="16">
+    <VerticalStackLayout Padding="20" Spacing="15">
 
-        <Label Text="Countdown Game" FontSize="28" HorizontalOptions="Center" />
+        <Label Text="Enter Player 1 Name:" 
+           FontSize="20" 
+           HorizontalOptions="Center" />
+        <Entry x:Name="Player1Entry"
+           Placeholder="Player 1" />
 
-        <Entry x:Name="Player1Entry" Placeholder="Player 1 name" />
-        <Entry x:Name="Player2Entry" Placeholder="Player 2 name" />
+        <Label Text="Enter Player 2 Name:" 
+           FontSize="20" 
+           HorizontalOptions="Center" />
+        <Entry x:Name="Player2Entry"
+           Placeholder="Player 2" />
 
-        <Button Text="Start Game" Clicked="OnStartGameClicked" />
+        <Button Text="Start Game"
+            Clicked="OnStartGameClicked"
+            HorizontalOptions="Center" />
 
-        <Label Text="Tip: you can change names anytime in Settings"
-               FontSize="12" Opacity="0.6" />
+    </VerticalStackLayout>
 
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <Label Text="Home Page" FontSize="20"/>
     </VerticalStackLayout>
 </ContentPage>

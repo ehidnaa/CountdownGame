@@ -10,7 +10,7 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
-    private void OnStartGameClicked(object sender, EventArgs e)
+    private async void OnStartGameClicked(object sender, EventArgs e)
     {
         var p1 = string.IsNullOrWhiteSpace(Player1Entry.Text) ? "Player 1" : Player1Entry.Text.Trim();
         var p2 = string.IsNullOrWhiteSpace(Player2Entry.Text) ? "Player 2" : Player2Entry.Text.Trim();
@@ -21,7 +21,7 @@ public partial class MainPage : ContentPage
             Player2 = new Player { Name = p2 }
         };
 
-        
-        Shell.Current.CurrentItem = Shell.Current.Items[0].Items[1];
+        // переключаемся на вкладку "Game" и сохраняем таб-меню
+        await Shell.Current.GoToAsync("//game");
     }
 }
